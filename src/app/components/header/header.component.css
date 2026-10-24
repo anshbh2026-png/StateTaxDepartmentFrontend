@@ -1,0 +1,103 @@
+.top-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+}
+
+.header-right {
+  position: relative;
+}
+
+.user-profile-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.user-avatar-wrapper {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.welcome-text {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Arrow styling */
+.user-profile-container .fa {
+  font-size: 14px;
+  color: #333;
+  transition: transform 0.2s ease;
+}
+
+/* Dropdown Menu Styles matching your screenshot design */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 10px;
+  background-color: #ffffff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  list-style: none;
+  padding: 5px 0;
+  z-index: 1000;
+  border: 1px solid #f2f2f2;
+}
+
+/* Class bound via Angular to show menu */
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 20px;
+  color: #333333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f5f5f5;
+  color: #26b99a;
+}
+/* Pure CSS Arrow styling */
+.dropdown-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  vertical-align: middle;
+  border-top: 5px dashed;
+  border-top: 5px solid \9;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  color: #333;
+  transition: transform 0.2s ease;
+}
+
+/* When open, flip the arrow upward */
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}

@@ -1,0 +1,111 @@
+.forget-pass-wrapper {
+  padding: 20px;
+  background-color: #f7f7f7;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.forget-pass-table {
+  width: 80%;
+  background-color: white;
+  border: 1px solid #1D4C80;
+  border-collapse: collapse;
+  padding: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.title-heading {
+  color: navy;
+  font-family: Verdana, sans-serif;
+  font-size: 14pt;
+}
+
+.field-label {
+  font-size: 10pt;
+  color: #000080;
+  font-family: Verdana, sans-serif;
+}
+
+.custom-input {
+  font-family: Verdana, sans-serif;
+  font-size: 12pt;
+  color: #1d4c81;
+  width: 266px;
+  border: 1px solid Gray;
+  padding: 4px;
+}
+
+.beige-bg {
+  background-color: Beige;
+}
+
+.otp-input {
+  background-color: #D7E0F4;
+  font-size: 16pt;
+  height: 34px;
+  width: 128px;
+}
+
+.validator-star {
+  color: red;
+  font-weight: bold;
+  margin-left: 5px;
+  font-family: Verdana, sans-serif;
+}
+
+.error-msg {
+  font-weight: bold;
+  font-family: Verdana, sans-serif;
+  font-size: 12pt;
+}
+
+.validator-summary div {
+  color: black;
+  font-weight: bold;
+  font-size: 12pt;
+  font-family: Times New Roman, serif;
+}
+
+.btn-primary-blue {
+  background-color: #1D4C81;
+  color: White;
+  border: none;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 11pt;
+}
+
+.btn-primary-blue:disabled {
+  background-color: #8fa6c2;
+  cursor: not-allowed;
+}
+
+.security-panel {
+  width: 84%;
+  margin: 15px auto;
+  background-color: White;
+  border: 1px solid #2D5900;
+  padding: 15px;
+}
+
+.group-box {
+  border: 1px groove #2D5900;
+  padding: 10px;
+  font-family: Verdana, sans-serif;
+  color: #2D5900;
+}
+
+.otp-instruction {
+  font-family: Verdana, sans-serif;
+  font-size: 12pt;
+  color: #156242;
+}
+
+.form-row {
+  font-size: 12pt;
+  font-family: Times New Roman, serif;
+  height: 36px;
+}

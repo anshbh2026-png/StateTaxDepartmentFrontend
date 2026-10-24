@@ -1,0 +1,329 @@
+<div class="container-fluid py-4 px-3 px-md-4 dashboard">
+
+  <!-- Header and filters -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <h4 class="fw-semibold mb-1">Revenue Collection</h4>
+      <p class="text-secondary mb-0">State revenue dashboard</p>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <select class="form-select"
+              [(ngModel)]="selectedMonth"
+              (change)="load()">
+        <option *ngFor="let month of months" [ngValue]="month.value">
+          {{ month.name }}
+        </option>
+      </select>
+
+      <select class="form-select"
+              [(ngModel)]="selectedYear"
+              (change)="load()">
+        <option *ngFor="let year of years" [ngValue]="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-secondary">Loading revenue data...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+    <button class="btn btn-sm btn-outline-danger ms-3" (click)="load()">
+      Retry
+    </button>
+  </div>
+
+  <ng-container *ngIf="!loading && !error">
+
+    <!-- Summary cards -->
+    <div class="row g-3 mb-4">
+
+      <div class="col-12 col-sm-6 col-xl-custom">
+        <div class="card summary-card target-card h-100">
+          <div class="card-body">
+            <div class="card-heading">SGST Target</div>
+            <div class="card-value">
+              {{ summary.target | currency:'INR':'symbol':'1.0-0' }}
+            </div>
+            <div class="card-note">Revenue target</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-custom">
+        <div class="card summary-card cash-card h-100">
+          <div class="card-body">
+            <div class="card-heading">SGST Cash</div>
+            <div class="card-value">
+              {{ totals.cash | currency:'INR':'symbol':'1.0-0' }}
+            </div>
+            <div class="card-note">Cash collection</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-custom">
+        <div class="card summary-card igst-card h-100">
+          <div class="card-body">
+            <div class="card-heading">IGST Settlement</div>
+            <div class="card-value">
+              {{ totals.igstSettlement | currency:'INR':'symbol':'1.0-0' }}
+            </div>
+            <div class="card-note">IGST collection</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-custom">
+        <div class="card summary-card total-card h-100">
+          <div class="card-body">
+            <div class="card-heading">Total Collection</div>
+            <div class="card-value">
+              {{ totals.total | currency:'INR':'symbol':'1.0-0' }}
+            </div>
+            <div class="card-note">SGST Cash + IGST Settlement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-custom">
+        <div class="card summary-card achieved-card h-100">
+          <div class="card-body">
+            <div class="card-heading">Target Achieved</div>
+            <div class="card-value">{{ targetAchievedPct }}%</div>
+            <div class="card-note">Total collection ÷ SGST target</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4 mb-4">
+
+      <!-- Donut chart -->
+      <div class="col-12 col-lg-4">
+        <div class="card dashboard-card h-100">
+          <div class="card-body p-4">
+            <h5 class="section-title">Collection Share</h5>
+            <p class="text-secondary small">
+              SGST Cash and IGST Settlement
+            </p>
+
+            <div class="donut-wrap mx-auto my-4"
+                 [style.background]="donutGradient">
+              <div class="donut-hole">
+                <span class="small text-secondary">Total Collection</span>
+                <strong>{{ donutSum | currency:'INR':'symbol':'1.0-0' }}</strong>
+              </div>
+            </div>
+
+            <div *ngFor="let part of donutParts"
+                 class="d-flex justify-content-between align-items-center py-2">
+              <span>
+                <i class="legend-dot" [style.background]="part.color"></i>
+                {{ part.label }}
+              </span>
+              <strong>
+                {{ part.value | currency:'INR':'symbol':'1.0-0' }}
+                <small class="text-secondary">
+                  ({{ donutPct(part.value) }}%)
+                </small>
+              </strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue comparison bar chart -->
+      <div class="col-12 col-lg-8">
+        <div class="card dashboard-card h-100">
+          <div class="card-body p-4">
+            <h5 class="section-title">Revenue Comparison</h5>
+            <p class="text-secondary small">
+              SGST Target, SGST Cash and IGST Settlement
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 small mb-3">
+              <span>
+                <i class="legend-dot target-dot"></i>
+                SGST Target
+              </span>
+              <span>
+                <i class="legend-dot cash-dot"></i>
+                SGST Cash
+              </span>
+              <span>
+                <i class="legend-dot igst-dot"></i>
+                IGST Settlement
+              </span>
+            </div>
+
+            <div class="bar-chart revenue-chart">
+
+              <div class="bar-group">
+                <div class="bars">
+                  <div class="bar target-bar"
+                       [style.height.%]="barPct(summary.target)"
+                       [title]="'SGST Target: ' + summary.target">
+                  </div>
+                </div>
+                <div class="bar-label">SGST Target</div>
+                <strong class="chart-value">
+                  {{ summary.target | currency:'INR':'symbol':'1.0-0' }}
+                </strong>
+              </div>
+
+              <div class="bar-group">
+                <div class="bars">
+                  <div class="bar cash-bar"
+                       [style.height.%]="barPct(totals.cash)"
+                       [title]="'SGST Cash: ' + totals.cash">
+                  </div>
+                </div>
+                <div class="bar-label">SGST Cash</div>
+                <strong class="chart-value">
+                  {{ totals.cash | currency:'INR':'symbol':'1.0-0' }}
+                </strong>
+              </div>
+
+              <div class="bar-group">
+                <div class="bars">
+                  <div class="bar igst-bar"
+                       [style.height.%]="barPct(totals.igstSettlement)"
+                       [title]="'IGST Settlement: ' + totals.igstSettlement">
+                  </div>
+                </div>
+                <div class="bar-label">IGST Settlement</div>
+                <strong class="chart-value">
+                  {{ totals.igstSettlement | currency:'INR':'symbol':'1.0-0' }}
+                </strong>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Zone-wise and Region-wise collection (same row) -->
+    <div class="row g-3 mb-4">
+
+      <!-- Zone-wise collection -->
+      <div class="col-12 col-xl-6">
+        <div class="card dashboard-card h-100">
+          <div class="card-body p-3">
+
+            <div class="mb-3">
+              <h5 class="section-title mb-1">Zone-wise Collection</h5>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0 zone-table">
+                <thead>
+                  <tr>
+                    <th>Zone</th>
+                    <th class="text-end">SGST Target</th>
+                    <th class="text-end">SGST Cash</th>
+                    <th class="text-end">IGST Settlement</th>
+                    <th class="text-end">Target Achieved</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let zone of zones">
+                    <td class="fw-semibold">{{ zone.name }}</td>
+                    <td class="text-end">{{ zone.totals.target | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ zone.totals.cash | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ zone.totals.igstSettlement | number:'1.0-0' }}</td>
+                    <td class="text-end fw-semibold">
+                      {{ achievedPct(zone.totals.total, zone.totals.target) }}%
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tfoot>
+                  <tr class="fw-bold">
+                    <td>Total</td>
+                    <td class="text-end">{{ totals.target | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ totals.cash | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ totals.igstSettlement | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ targetAchievedPct }}%</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Region-wise collection -->
+      <div class="col-12 col-xl-6">
+        <div class="card dashboard-card h-100">
+          <div class="card-body p-3">
+
+            <div class="mb-3">
+              <h5 class="section-title mb-1">Region-wise Collection</h5>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0 zone-table">
+                <thead>
+                  <tr>
+                    <th>Region</th>
+                    <th class="text-end">SGST Target</th>
+                    <th class="text-end">SGST Cash</th>
+                    <th class="text-end">IGST Settlement</th>
+                    <th class="text-end">Target Achieved</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <ng-container *ngFor="let zone of zones">
+                    <tr *ngFor="let section of zone.sections">
+                      <td>{{ section.name }}</td>
+                      <td class="text-end">{{ section.target | number:'1.0-0' }}</td>
+                      <td class="text-end">{{ section.cash | number:'1.0-0' }}</td>
+                      <td class="text-end">{{ section.igstSettlement | number:'1.0-0' }}</td>
+                      <td class="text-end fw-semibold">
+                        {{ achievedPct(section.total, section.target) }}%
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                  <tr *ngIf="!hasRegionRows">
+                    <td colspan="5" class="text-center text-secondary">
+                      No records found.
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tfoot>
+                  <tr class="fw-bold">
+                    <td>Total</td>
+                    <td class="text-end">{{ totals.target | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ totals.cash | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ totals.igstSettlement | number:'1.0-0' }}</td>
+                    <td class="text-end">{{ targetAchievedPct }}%</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </ng-container>
+</div>

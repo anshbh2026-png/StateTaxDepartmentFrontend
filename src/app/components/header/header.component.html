@@ -1,0 +1,26 @@
+<header class="top-header">
+  <div class="header-right">
+    <!-- User Profile Toggle -->
+    <div class="user-profile-container" (click)="toggleDropdown($event)">
+     
+      <span class="welcome-text">Welcome, <strong>{{ username }}</strong></span>
+      <div class="user-avatar-wrapper">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Admin Profile" class="user-avatar">
+        <!-- <i class="fa fa-user" aria-hidden="true"></i> -->
+      </div>
+      <!-- Pure CSS Arrow with dynamic class -->
+      <span class="dropdown-arrow" [class.open]="isDropdownOpen"></span>
+      
+    </div>
+
+    <!-- Dropdown Menu -->
+    <ul class="dropdown-menu dropdown-usermenu pull-right" [class.show]="isDropdownOpen">
+      <li>
+        <a routerLink="/update-profile">Profile</a>
+      </li>
+      <li>
+        <a href="javascript:void(0);" (click)="logout()">Log Out</a>
+      </li>
+    </ul>
+  </div>
+</header>

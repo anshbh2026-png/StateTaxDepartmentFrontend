@@ -1,0 +1,781 @@
+/* =========================================================
+   UTTARAKHAND GST - SIGN IN PAGE
+   DASHBOARD PALETTE (matches GST API Management Dashboard)
+========================================================= */
+
+:host {
+    --bg:          #f6f8fb;
+    --card:        #ffffff;
+    --ink:         #1e2a3a;
+    --heading:     #1f2a44;
+    --muted:       #6b7a8f;
+    --border:      #e6ebf2;
+    --placeholder: #9aa6b5;
+
+    --indigo:      #6c7cf5;
+    --indigo-dark: #4f5fd8;
+    --indigo-wash: #eef1ff;
+    --sky:         #4fc3f7;
+    --sky-wash:    #e8f7fe;
+    --teal:        #12c49a;
+    --teal-wash:   #e6faf4;
+    --purple:      #9b5de5;
+    --coral:       #ff8a65;
+    --coral-wash:  #fff1ec;
+
+    --error:       #e5484d;
+
+    display: block;
+    min-height: 100vh;
+    font-family: "Segoe UI", Inter, Arial, sans-serif;
+    color: var(--ink);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.text-danger {
+    color: var(--error);
+    font-weight: 700;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.signin-page {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 45px 25px 25px;
+    background: var(--bg);
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.signin-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 1050px;
+    min-height: 610px;
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(30, 42, 58, 0.04), 0 12px 32px rgba(30, 42, 58, 0.08);
+}
+
+/* =========================================================
+   LEFT PANEL
+========================================================= */
+
+.signin-left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 45px;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+}
+
+.signin-left::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--indigo), var(--sky), var(--teal), var(--purple), var(--coral));
+}
+
+.signin-emblem-wrapper {
+    width: 145px;
+    height: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 3px solid var(--indigo-wash);
+    box-shadow: 0 8px 22px rgba(108, 124, 245, 0.18);
+    overflow: hidden;
+}
+
+.signin-emblem {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    display: block;
+}
+
+.signin-left h1 {
+    color: var(--heading);
+    font-size: 27px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.signin-state {
+    color: var(--indigo);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.signin-divider {
+    width: 130px;
+    height: 4px;
+    margin: 18px auto;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--indigo), var(--sky), var(--teal));
+}
+
+.signin-divider span {
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin: -2px auto;
+    border-radius: 50%;
+    background: var(--purple);
+}
+
+.signin-description {
+    max-width: 390px;
+    margin-bottom: 24px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Quick service links */
+
+.signin-services {
+    width: 100%;
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 15px;
+    text-align: left;
+}
+
+.signin-services a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    color: var(--heading);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.signin-services a:hover {
+    background: var(--indigo-wash);
+    color: var(--indigo-dark);
+}
+
+.service-arrow {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--indigo);
+    color: var(--card);
+    font-size: 12px;
+    transition: background 0.2s ease;
+}
+
+.signin-services a:nth-child(4n+1) .service-arrow { background: var(--indigo); }
+.signin-services a:nth-child(4n+2) .service-arrow { background: var(--sky); }
+.signin-services a:nth-child(4n+3) .service-arrow { background: var(--teal); }
+.signin-services a:nth-child(4n)   .service-arrow { background: var(--purple); }
+
+.signin-services a:hover .service-arrow {
+    background: var(--coral);
+}
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+.signin-right {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px 70px;
+    background: var(--card);
+}
+
+.signin-right::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--coral), var(--purple), var(--indigo));
+}
+
+.login-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.login-badge {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: var(--indigo-wash);
+    color: var(--indigo);
+    font-size: 20px;
+}
+
+.login-header h2 {
+    margin: 0 0 5px;
+    color: var(--heading);
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.login-header p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.login-form {
+    width: 100%;
+    max-width: 450px;
+}
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label,
+.captcha-section label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--heading);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.input-wrapper {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+    background: var(--card);
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px rgba(108, 124, 245, 0.14);
+}
+
+.input-icon {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+}
+
+.input-wrapper input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--placeholder);
+}
+
+.password-toggle {
+    width: 48px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--muted);
+    opacity: 0.7;
+}
+
+.password-toggle:hover {
+    opacity: 1;
+}
+
+/* Captcha */
+
+.captcha-section {
+    margin-top: 5px;
+    margin-bottom: 22px;
+}
+
+.captcha-row {
+    display: grid;
+    grid-template-columns: 120px 45px 1fr;
+    gap: 8px;
+    align-items: center;
+}
+
+.captcha-code {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--indigo-wash);
+    border: 1px solid #d6dcff;
+    color: var(--indigo-dark);
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    user-select: none;
+}
+
+.captcha-refresh {
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    background: var(--sky-wash);
+    color: var(--sky);
+    font-size: 21px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease;
+}
+
+.captcha-refresh:hover {
+    background: var(--sky);
+    color: var(--card);
+    transform: rotate(180deg);
+}
+
+.captcha-row input {
+    height: 48px;
+    width: 100%;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.captcha-row input:focus {
+    border-color: var(--indigo);
+    background: var(--card);
+    box-shadow: 0 0 0 3px rgba(108, 124, 245, 0.14);
+}
+
+/* Button */
+
+.login-button {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--indigo), var(--purple));
+    color: var(--card);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.login-button:hover:not(:disabled) {
+    box-shadow: 0 8px 18px rgba(108, 124, 245, 0.35);
+    transform: translateY(-1px);
+}
+
+.login-button:disabled {
+    background: var(--placeholder);
+    cursor: not-allowed;
+}
+
+/* Links */
+
+.official-link,
+.forgot-link {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.official-link {
+    margin-top: 14px;
+    color: var(--teal);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.forgot-link {
+    margin-top: 10px;
+    color: var(--indigo);
+    font-size: 12px;
+}
+
+.official-link span,
+.forgot-link span {
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.official-link:hover,
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* Security note */
+
+.security-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 25px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--teal-wash);
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   OTP PANEL
+========================================================= */
+
+.otp-panel {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    animation: otpFadeIn 0.24s ease-out;
+}
+
+.back-to-login {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: var(--indigo);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.back-to-login:hover {
+    text-decoration: underline;
+}
+
+.otp-card {
+    padding: 24px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--indigo);
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: 0 4px 14px rgba(30, 42, 58, 0.05);
+    text-align: center;
+}
+
+.otp-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--sky-wash);
+    font-size: 24px;
+}
+
+.otp-card h3 {
+    color: var(--heading);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.otp-description {
+    color: var(--muted);
+    font-size: 12.5px;
+    margin-bottom: 6px;
+}
+
+.otp-destination {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--coral-wash);
+    color: var(--coral);
+    font-size: 11.5px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.otp-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.otp-form label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--heading);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.otp-form input {
+    width: 100%;
+    height: 48px;
+    padding: 0 13px;
+    margin-bottom: 4px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.otp-form input:focus {
+    border-color: var(--indigo);
+    background: var(--card);
+    box-shadow: 0 0 0 3px rgba(108, 124, 245, 0.14);
+}
+
+.otp-form small {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--placeholder);
+    font-size: 11px;
+}
+
+.otp-submit {
+    margin-top: 5px;
+}
+
+.otp-timer-section {
+    margin: 14px 0 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.otp-timer-section p + p,
+.otp-timer-section .text-danger {
+    margin-top: 4px;
+}
+
+.otp-timer-section .fw-bold {
+    color: var(--purple);
+    font-weight: 700;
+}
+
+.resend-otp {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--indigo);
+    font-family: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.resend-otp:disabled {
+    color: var(--placeholder);
+    text-decoration: none;
+    cursor: not-allowed;
+}
+
+.otp-message {
+    min-height: 16px;
+    margin-top: 10px;
+    color: var(--teal);
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.otp-message.error {
+    color: var(--error);
+}
+
+@keyframes otpFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.signin-footer {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+.footer-dot {
+    color: var(--coral);
+    font-weight: 900;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+    .signin-container {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+
+    .signin-left {
+        padding: 35px 30px;
+    }
+
+    .signin-right {
+        padding: 40px 45px;
+    }
+
+    .signin-services {
+        max-width: 450px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+    .signin-page {
+        padding: 20px 12px;
+    }
+
+    .signin-container {
+        border-radius: 14px;
+    }
+
+    .signin-left {
+        padding: 30px 20px;
+    }
+
+    .signin-emblem-wrapper {
+        width: 115px;
+        height: 115px;
+    }
+
+    .signin-emblem {
+        width: 95px;
+        height: 95px;
+    }
+
+    .signin-left h1 {
+        font-size: 23px;
+    }
+
+    .signin-services {
+        grid-template-columns: 1fr;
+    }
+
+    .signin-right {
+        padding: 35px 22px;
+    }
+
+    .login-header h2 {
+        font-size: 26px;
+    }
+
+    .captcha-row {
+        grid-template-columns: 100px 42px 1fr;
+    }
+
+    .captcha-code {
+        font-size: 17px;
+    }
+
+    .otp-card {
+        padding: 20px 15px 17px;
+    }
+
+    .otp-card h3 {
+        font-size: 20px;
+    }
+
+    .signin-footer {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .footer-dot {
+        display: none;
+    }
+}

@@ -1,0 +1,124 @@
+<div class="forget-pass-wrapper">
+  <form [formGroup]="forgetForm" style="width: 100%; display: flex; justify-content: center;">
+    <table id="Table1" class="forget-pass-table" cellspacing="1" cellpadding="1" border="0">
+      
+      <!-- Top Spacing -->
+      <tr>
+        <td align="center" colspan="2" style="height: 7px;"></td>
+      </tr>
+
+      <!-- General Message Label -->
+      <tr>
+        <td align="center" colspan="2" style="height: 7px;">
+          <span *ngIf="generalMsg" class="error-msg" [style.color]="generalMsgColor">{{ generalMsg }}</span>
+        </td>
+      </tr>
+
+      <!-- Title Header -->
+      <tr>
+        <td colspan="2" align="center" style="height: 7px;">
+          <strong><span class="title-heading">Forget Password by Dealer&nbsp;</span></strong>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center" colspan="2" style="height: 7px; text-align: right"></td>
+      </tr>
+
+      <!-- TIN Number Field -->
+      <tr class="form-row">
+        <td align="right" style="width: 50%;">
+          <span class="field-label">Enter Your TIN Number:&nbsp;</span>
+        </td>
+        <td align="left">
+          <input type="text" formControlName="txtTin" maxlength="11" class="custom-input beige-bg" />
+          <span class="validator-star" *ngIf="forgetForm.get('txtTin')?.invalid && forgetForm.get('txtTin')?.touched">*</span>
+        </td>
+      </tr>
+
+      <!-- Email ID Field -->
+      <tr class="form-row">
+        <td align="right" style="width: 50%;">
+          <span class="field-label">Enter Your Registered E-mail ID:&nbsp;</span>
+        </td>
+        <td align="left">
+          <input type="text" formControlName="txtemailid" maxlength="50" class="custom-input beige-bg" />
+          <span class="validator-star" *ngIf="forgetForm.get('txtemailid')?.invalid && forgetForm.get('txtemailid')?.touched">*</span>
+        </td>
+      </tr>
+
+      <!-- Mobile Number Field -->
+      <tr class="form-row">
+        <td align="right" style="width: 50%;">
+          <span class="field-label">Enter Your Mobile No.:&nbsp;</span>
+        </td>
+        <td align="left">
+          <input type="text" formControlName="txtmobno" maxlength="10" class="custom-input beige-bg" />
+          <span class="validator-star" *ngIf="forgetForm.get('txtmobno')?.invalid && forgetForm.get('txtmobno')?.touched">*</span>
+        </td>
+      </tr>
+
+      <!-- Error/Validation feedback summaries -->
+      <tr>
+        <td align="center" colspan="2" class="validator-summary" style="padding: 8px 0;">
+          <div *ngIf="forgetForm.get('txtTin')?.hasError('pattern') && forgetForm.get('txtTin')?.touched">Enter Valid TIN</div>
+          <div *ngIf="forgetForm.get('txtemailid')?.hasError('email') && forgetForm.get('txtemailid')?.touched">email address must be of the form username&#64;domain.com</div>
+          <div *ngIf="forgetForm.get('txtmobno')?.hasError('pattern') && forgetForm.get('txtmobno')?.touched">Enter Valid Mobile No.</div>
+        </td>
+      </tr>
+
+      <!-- Proceed & Cancel Buttons -->
+      <tr>
+        <td align="center" colspan="2" style="height: 26px; padding: 15px 0;">
+          <button type="button" class="btn-primary-blue" style="width: 151px;" (click)="onProceed()" [disabled]="isOtpSent">Proceed</button>
+          <button type="button" class="btn-primary-blue" style="width: 99px; margin-left: 10px;" (click)="onCancel()">Cancel</button>
+        </td>
+      </tr>
+
+      <!-- Panel 6: One Time Security Code Verification Panel -->
+      <tr>
+        <td align="center" colspan="2">
+          <div class="security-panel" *ngIf="isOtpSent">
+            <fieldset class="group-box">
+              <legend>One Time Security Code Verification</legend>
+              <form [formGroup]="secCodeForm">
+                <table width="100%">
+                  <tr>
+                    <td align="left" style="width: 62%;">
+                      <span class="otp-instruction">Enter the code sent to your mobile no. and email id :</span>
+                    </td>
+                    <td align="left">
+                      <input type="text" formControlName="txtsmscode" maxlength="6" class="custom-input otp-input" />
+                      <span class="validator-star" *ngIf="secCodeForm.get('txtsmscode')?.invalid && secCodeForm.get('txtsmscode')?.touched">*</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" colspan="2">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center" colspan="2">
+                      <button type="button" class="btn-primary-blue" style="width: 272px;" (click)="onConfirmReset()" [disabled]="isCompleted">Confirm and Reset your Password</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" colspan="2">
+                      <br/>
+                      <span class="error-msg" [style.color]="'#C04000'">{{ otpMsg }}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" colspan="2">
+                      <br/>
+                      <button type="button" class="btn-primary-blue" *ngIf="isCompleted" (click)="onCancel()">Click here to login</button>
+                    </td>
+                  </tr>
+                </table>
+              </form>
+            </fieldset>
+          </div>
+        </td>
+      </tr>
+
+    </table>
+  </form>
+</div>

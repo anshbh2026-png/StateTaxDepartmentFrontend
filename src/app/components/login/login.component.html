@@ -1,0 +1,179 @@
+<main class="signin-page">
+
+    <!-- TRICOLOUR BACKGROUND WAVES -->
+    <!-- <div class="signin-wave signin-wave-saffron"></div>
+    <div class="signin-wave signin-wave-green"></div> -->
+
+    <div class="signin-wave signin-wave-white"></div>
+    <div class="signin-wave signin-wave-white"></div>
+
+    <section class="signin-container">
+
+        <div class="signin-left">
+            <div class="signin-emblem-wrapper">
+                <img src="assets/images/emblem.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/220px-Emblem_of_India.svg.png'" alt="Government Emblem" class="signin-emblem">
+            </div>
+
+            <h1>State Tax Department</h1>
+            <p class="signin-state">Uttarakhand</p>
+
+            <div class="signin-divider"><span></span></div>
+
+            <p class="signin-description">
+                Access the Uttarakhand GST portal for secure digital tax services, registrations, payments and departmental services.
+            </p>
+
+            <div class="signin-services">
+                <a href="#"><span class="service-arrow">→</span> Search a Dealer</a>
+                <a href="#"><span class="service-arrow">→</span> e-Registration</a>
+                <a href="#"><span class="service-arrow">→</span> e-Payment</a>
+                <a href="#"><span class="service-arrow">→</span> e-Tripsheet</a>
+                <a href="#"><span class="service-arrow">→</span> e-Form16 detail at Purchase time</a>
+                <a href="#"><span class="service-arrow">→</span> Verify Form-C/Form-XI</a>
+                <a href="#"><span class="service-arrow">→</span> HRMS Login</a>
+            </div>
+        </div>
+
+        <!-- RIGHT LOGIN PANEL -->
+        <div class="signin-right">
+
+            <!-- ========================================================= -->
+            <!-- SHARED TOP HEADER (Shown on BOTH Screens)                 -->
+            <!-- ========================================================= -->
+            <div class="login-header">
+                <span class="login-badge">🔐</span>
+                <h2>User Login</h2>
+                <p>Secure access to GST services</p>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- VIEW 1: NORMAL USER LOGIN FORM                            -->
+            <!-- ========================================================= -->
+            <ng-container *ngIf="!isOtpMode">
+                <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+
+                    <!-- USERNAME -->
+                    <div class="input-group" style="display: block;">
+                        <label for="username">Username</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input type="text" id="username" formControlName="username" placeholder="Enter username" autocomplete="username" required>
+                        </div>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="input-group" style="display: block;">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password" placeholder="Enter password" autocomplete="current-password" required>
+                            <button type="button" class="password-toggle" id="passwordToggle" (click)="togglePasswordVisibility()" aria-label="Show password">
+                                {{ showPassword ? '🙈' : '👁' }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CAPTCHA -->
+                    <div class="captcha-section">
+                        <label>Enter Captcha</label>
+                        <div class="captcha-row">
+                            <div class="captcha-code" id="captchaCode">{{ captchaCode }}</div>
+                            <button type="button" class="captcha-refresh" id="captchaRefresh" (click)="generateCaptcha()" aria-label="Refresh captcha">↻</button>
+                            <input type="text" formControlName="captchaInput" id="captchaInput" placeholder="Captcha" maxlength="6" required>
+                        </div>
+                        <p *ngIf="captchaError" class="text-danger" style="font-size: 12px; margin-top: 6px;">{{ captchaError }}</p>
+                    </div>
+
+                    <button type="submit" class="login-button" id="loginButton">
+                        Login <span>→</span>
+                    </button>
+
+                    <a href="#" class="official-link" (click)="onUnlockClick($event)">
+                        Unlock your account <span>(For Official Use Only)</span>
+                    </a>
+
+                    <!-- FORGOT PASSWORD -->
+                    <a routerLink="/dealer-forgetpass" class="forgot-link">
+                        Forgot Password? <span>(For Dealers)</span>
+                    </a>
+
+                </form>
+            </ng-container>
+
+            <!-- ========================================================= -->
+            <!-- VIEW 2: OTP VERIFICATION                                  -->
+            <!-- ========================================================= -->
+            <section class="otp-panel" id="otpPanel" aria-labelledby="otpTitle" *ngIf="isOtpMode">
+                <button type="button" class="back-to-login" id="backToLogin" (click)="backToLogin()">← Back to Login</button>
+
+                <div class="otp-card">
+                    <div class="otp-icon" aria-hidden="true">📱</div>
+                    <h3 id="otpTitle">OTP Verification</h3>
+                    <p class="otp-description">
+                        Enter the 6-digit OTP sent to your registered mobile number.
+                    </p>
+                    <p class="otp-destination" id="otpDestination">
+                        OTP delivery will be connected to the authentication service.
+                    </p>
+
+                    <form id="otpForm" class="otp-form" [formGroup]="otpForm" (ngSubmit)="onOtpSubmit()">
+                        <label for="otpInput">Enter OTP</label>
+                        <input
+                            type="text"
+                            id="otpInput"
+                            formControlName="otp"
+                            inputmode="numeric"
+                            autocomplete="one-time-code"
+                            pattern="[0-9]{6}"
+                            maxlength="6"
+                            placeholder="Enter 6-digit OTP"
+                            aria-describedby="otpHelp"
+                            required
+                        >
+                        <small id="otpHelp">Enter the 6-digit code to continue.</small>
+                        <button type="submit" class="login-button otp-submit" [disabled]="otpForm.invalid">Submit OTP <span>→</span></button>
+                    </form>
+
+                    <div class="otp-timer-section text-center my-2">
+                        <p *ngIf="!isOtpExpired" style="font-size: 12px; color: #6d7e8d;">
+                            OTP expires in:
+                            <span class="fw-bold text-danger">
+                                {{ Math.floor(timerSeconds / 60) | number:'2.0-0' }}:{{ timerSeconds % 60 | number:'2.0-0' }}
+                            </span>
+                        </p>
+                        <p *ngIf="isOtpExpired" class="text-danger fw-bold small">
+                            OTP has expired! Please click Resend OTP.
+                        </p>
+
+                        <button type="button" class="resend-otp" [disabled]="timerSeconds > 0" (click)="resendOtp()">
+                            Resend OTP
+                        </button>
+                    </div>
+
+                    <p id="otpMessage" class="otp-message" role="status" aria-live="polite">{{ otpMessage }}</p>
+                </div>
+
+                <a href="#" class="official-link">
+                    Unlock your account <span>(For Official Use Only)</span>
+                </a>
+
+                <a routerLink="/dealer-forgetpass" class="forgot-link">
+                    Forgot Password? <span>(For Dealers)</span>
+                </a>
+            </section>
+
+            <div class="security-note">
+                <span>🛡</span> Your information is protected through secure authentication.
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer class="signin-footer">
+        <span>© 2026 Uttarakhand State Tax Department</span>
+        <span class="footer-dot">•</span>
+        <span>Government of Uttarakhand</span>
+    </footer>
+
+</main>
